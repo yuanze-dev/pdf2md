@@ -1,55 +1,51 @@
-# PDF-To-Markdown Converter
+# pdf2md
 
-Javascript tool to parse PDF files and convert them into Markdwon format. Online version at http://pdf2md.morethan.io!
+JavaScript npm library to parse PDF files and convert them into Markdown
 
 ## Major Changes
 
-- **Apr 2017** - 0.1: Initial Release
+See [Releases](https://github.com/opendocsg/pdf2md/releases)
 
-## Contribute
+## Usage
 
-Use the [issue tracker](https://github.com/jzillmann/pdf-to-markdown/issues) and/or open [pull requests](https://github.com/jzillmann/pdf-to-markdown/pulls)!
+### Library
 
-#### Useful Build Commands
+```js
+const fs = require('fs')
+const pdf2md = require('@opendocsg/pdf2md')
 
-- ```npm install``` Download all necessary npm packages
-- ```npm run lint``` Lint the javascript files
-- ```npm run test``` Run tests
-- ```npm run check``` Lint & Test
-- ```npm run build``` Build the dev version
-- ```npm run start``` Run the app on an server (useful for loading of worker.js and cmaps)
-- ```npm run watch``` Continuously build the project
-- ```open build/index.html``` Open the build project in your default browser
-- ```npm run release``` Build production version
-- ```npm run deploy``` Build production version & move it to the github pages foldler
-- ```npm run prepare``` Babelify necessary files and package into the `dist/` directory
+const pdfBuffer = fs.readFileSync(filePath)
+pdf2md(pdfBuffer, callbacks)
+  .then(text => {
+    let outputFile = allOutputPaths[i] + '.md'
+    console.log(`Writing to ${outputFile}...`)
+    fs.writeFileSync(path.resolve(outputFile), text)
+    console.log('Done.')
+  })
+  .catch(err => {
+    console.error(err)
+  })
+```
 
-#### CLI tool
-Instructions to run:
-<pre>
+### CLI tool
+
+```
 $ cd [project_folder]
-$ npm run prepare
-$ node dist/pdf2md-cli.js --inputFolderPath=[your input folder path] --outputFolderPath=[your output folder path] --recursive
-</pre>
+$ npx @opendocsg/pdf2md --inputFolderPath=[your input folder path] --outputFolderPath=[your output folder path] --recursive
+```
+
 If you are converting recursively on a large number of files you might encounter the error "Allocation failed - JavaScript heap out of memory”. Instead, run the command
-<pre>
-$ node dist/pdf2md-cli.js --max-old-space-size=4096 --inputFolderPath=[your input folder path] --outputFolderPath=[your output folder path] --recursive
-</pre>
+
+```
+$ node lib/pdf2md-cli.js --max-old-space-size=4096 --inputFolderPath=[your input folder path] --outputFolderPath=[your output folder path] --recursive
+```
 
 Options:
 1. Input folder path (should exist)
 2. Output folder path (should exist)
 3. Recursive - convert all PDFs for folders within folders. Specify the tag if you require recursive, and omit if you don't
 
-#### Release
-- Increase version in package.json
-- ```npm run deploy```
-- commit & push
-- tag with
-  - _git tag -a $releaseVersion -m "$releaseVersion release"_
-  - _git push --tags_
-
-
 ## Credits
 
+[pdf-to-markdown](https://github.com/jzillmann/pdf-to-markdown) - original project by Johannes Zillmann
 [pdf.js](https://mozilla.github.io/pdf.js/) - Mozilla's PDF parsing & rendering platform which is used as a raw parser
