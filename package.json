@@ -6,6 +6,10 @@
   "bin": {
     "pdf2md": "lib/pdf2md-cli.js"
   },
+  "files": [
+    "/lib",
+    "/test",
+  ],
   "scripts": {
     "lint": "eslint lib --cache",
     "test": "mocha test --recursive",
