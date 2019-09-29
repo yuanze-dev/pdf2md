@@ -1,6 +1,9 @@
 const { expect } = require('chai')
 
 const { hasUpperCaseCharacterInMiddleOfWord, normalizedCharCodeArray, removeLeadingWhitespaces, removeTrailingWhitespaces, prefixAfterWhitespace, suffixBeforeWhitespace, charCodeArray, isListItem, isNumberedListItem, wordMatch } = require('../../lib/util/string-functions')
+const { parse } = require('../../lib/util/pdf')
+const fs = require('fs')
+const path = require('path')
 
 describe('functions: hasUpperCaseCharacterInMiddleOfWord', () => {
   it('single word', () => {
@@ -176,5 +179,31 @@ describe('functions: wordsMatch', () => {
     expect(wordMatch('text', 'test')).to.equal(0.0)
 
     expect(wordMatch('inStruCtionS for the full Moon proCeSS', 'Instructions for the Full Moon Process')).to.equal(1.0)
+  })
+})
+
+describe('functions: removePageNumber', () => {
+  it('Does not remove annotation number', async () => {
+    try {
+      const filePath = path.join(__dirname, '/../../examples/ExamplePdf.pdf')
+      const pdfBuffer = await fs.readFileSync(filePath)
+      const { pages } = await parse(pdfBuffer, {})
+      const page = pages.find(page => page.index === pages.length - 1)
+      expect(page.items[page.items.length - 3].text).to.equal('10')
+    } catch (err) {
+      console.log(err)
+    }
+  })
+
+  it('Removes page number if it is the last element', async () => {
+    try {
+      const filePath = path.join(__dirname, '/../../examples/ExamplePdf.pdf')
+      const pdfBuffer = await fs.readFileSync(filePath)
+      const { pages } = await parse(pdfBuffer, {})
+      const page = pages.find(page => page.index === 0)
+      expect(page.items[page.items.length - 1].text).to.equal('')
+    } catch (err) {
+      console.log(err)
+    }
   })
 })
