@@ -186,7 +186,7 @@ describe('functions: removePageNumber', () => {
   it('Does not remove annotation number', async () => {
     try {
       const filePath = path.join(__dirname, '/../../examples/ExamplePdf.pdf')
-      const pdfBuffer = await fs.readFileSync(filePath)
+      const pdfBuffer = fs.readFileSync(filePath)
       const { pages } = await parse(pdfBuffer, {})
       const page = pages.find(page => page.index === pages.length - 1)
       expect(page.items[page.items.length - 3].text).to.equal('10')
@@ -198,7 +198,7 @@ describe('functions: removePageNumber', () => {
   it('Removes page number if it is the last element', async () => {
     try {
       const filePath = path.join(__dirname, '/../../examples/ExamplePdf.pdf')
-      const pdfBuffer = await fs.readFileSync(filePath)
+      const pdfBuffer = fs.readFileSync(filePath)
       const { pages } = await parse(pdfBuffer, {})
       const page = pages.find(page => page.index === 0)
       expect(page.items[page.items.length - 1].text).to.equal('')
