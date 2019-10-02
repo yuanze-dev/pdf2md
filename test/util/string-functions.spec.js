@@ -1,9 +1,7 @@
 const { expect } = require('chai')
 
 const { hasUpperCaseCharacterInMiddleOfWord, normalizedCharCodeArray, removeLeadingWhitespaces, removeTrailingWhitespaces, prefixAfterWhitespace, suffixBeforeWhitespace, charCodeArray, isListItem, isNumberedListItem, wordMatch } = require('../../lib/util/string-functions')
-const { parse } = require('../../lib/util/pdf')
-const fs = require('fs')
-const path = require('path')
+const { findPageNumber } = require('../../lib/util/pdf')
 
 describe('functions: hasUpperCaseCharacterInMiddleOfWord', () => {
   it('single word', () => {
@@ -182,28 +180,9 @@ describe('functions: wordsMatch', () => {
   })
 })
 
-describe('functions: removePageNumber', () => {
-  it('Does not remove annotation number', async () => {
-    try {
-      const filePath = path.join(__dirname, '/../../examples/ExamplePdf.pdf')
-      const pdfBuffer = fs.readFileSync(filePath)
-      const { pages } = await parse(pdfBuffer, {})
-      const page = pages.find(page => page.index === pages.length - 1)
-      expect(page.items[page.items.length - 3].text).to.equal('10')
-    } catch (err) {
-      console.log(err)
-    }
-  })
-
-  it('Removes page number if it is the last element', async () => {
-    try {
-      const filePath = path.join(__dirname, '/../../examples/ExamplePdf.pdf')
-      const pdfBuffer = fs.readFileSync(filePath)
-      const { pages } = await parse(pdfBuffer, {})
-      const page = pages.find(page => page.index === 0)
-      expect(page.items[page.items.length - 1].text).to.equal('')
-    } catch (err) {
-      console.log(err)
-    }
+describe('functions: findPageNumber', () => {
+  it('Searches and stores page number', () => {
+    const array = [{ str: '1' }, { str: 'test' }, { str: 'how' }, { str: 'to' }, { str: 'find' }, { str: 'page' }, { str: '3' }, { str: 'number' }]
+    expect(findPageNumber('3', array)).to.eql({ 3: ['1', '3'] })
   })
 })
