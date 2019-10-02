@@ -180,9 +180,9 @@ describe('functions: wordsMatch', () => {
   })
 })
 
-describe('functions: findPageNumber', () => {
+describe.only('functions: findPageNumber', () => {
   it('Searches and stores page number', () => {
     const array = [{ str: '1' }, { str: 'test' }, { str: 'how' }, { str: 'to' }, { str: 'find' }, { str: 'page' }, { str: '3' }, { str: 'number' }]
-    expect(findPageNumber('3', array)).to.eql({ 3: ['1', '3'] })
+    expect(findPageNumber({}, '3', array)).to.eql({ 3: ['1', '3'] })
   })
 })
