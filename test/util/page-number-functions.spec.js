@@ -22,7 +22,7 @@ describe('functions: findFirstPage', () => {
       28: [11],
       30: [13],
     }
-    expect(findFirstPage(hashTable)).to.eql({ pageIndex: 20, pageNum: '3' })
+    expect(findFirstPage(hashTable)).to.eql({ pageIndex: 20, pageNum: 3 })
   })
 
   it('Return first page index and number with incompleted Hashtable', () => {
@@ -38,7 +38,7 @@ describe('functions: findFirstPage', () => {
       16: [11, 12, 10],
       17: [11],
     }
-    expect(findFirstPage(hashTable)).to.eql({ pageIndex: 10, pageNum: '4' })
+    expect(findFirstPage(hashTable)).to.eql({ pageIndex: 10, pageNum: 4 })
   })
 })
 
@@ -67,10 +67,11 @@ describe('functions: removePageNumber', () => {
       const item = { str: text }
       textContent.items.push(item)
     }
+    const textContentLength = textContent.items.length
     const filteredContent = { items: [...textContent.items] }
     filteredContent.items.pop()
 
-    expect(removePageNumber(textContent, '6').items.length).to.equal(removePageNumber(textContent, 6).items.length - 1)
-    expect(removePageNumber(textContent, '6').items).to.eql(filteredContent.items)
+    expect(removePageNumber(textContent, 6).items.length).to.equal(textContentLength - 1)
+    expect(removePageNumber(textContent, 6).items).to.eql(filteredContent.items)
   })
 })
