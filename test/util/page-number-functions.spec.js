@@ -1,5 +1,5 @@
 const { expect } = require('chai')
-const { findPageNumbers, findFirstPage } = require('../../lib/util/page-number-functions')
+const { findPageNumbers, findFirstPage, removePageNumber } = require('../../lib/util/page-number-functions')
 
 describe('functions: findPageNumbers', () => {
   it('Search, coerce and store page number', () => {
@@ -22,7 +22,7 @@ describe('functions: findFirstPage', () => {
       28: [11],
       30: [13],
     }
-    expect(findFirstPage(hashTable)).to.eql({ pageIndex: 20, pageNum: 3 })
+    expect(findFirstPage(hashTable)).to.eql({ pageIndex: 20, pageNum: '3' })
   })
 
   it('Return first page index and number with incompleted Hashtable', () => {
@@ -38,6 +38,39 @@ describe('functions: findFirstPage', () => {
       16: [11, 12, 10],
       17: [11],
     }
-    expect(findFirstPage(hashTable)).to.eql({ pageIndex: 10, pageNum: 4 })
+    expect(findFirstPage(hashTable)).to.eql({ pageIndex: 10, pageNum: '4' })
+  })
+})
+
+describe('functions: removePageNumber', () => {
+  it('Remove page number when no conflicting number exists on the page', () => {
+    const textContent = { items: [{ str: '3' }, { str: 'play-' }, { str: '.' }, { str: 'a marked' }, { str: 'find' }, { str: 'page' }, { str: 'boundaries' }, { str: '4' }] }
+    expect(removePageNumber(textContent, '4').items).to.eql([{ str: '3' }, { str: 'play-' }, { str: '.' }, { str: 'a marked' }, { str: 'find' }, { str: 'page' }, { str: 'boundaries' }])
+  })
+
+  it('Remove page number when conflicting number exists on the page', () => {
+    const longText = `beginning of the conflict and what would happen after its conclusion. 
+    So also with place and membership. A game is played in that place, with those persons. 
+    The world is elaborately marked by boundaries of contest, its people finely classified as to their eligibilities. 
+    5 Only one person or team can win a finite game, but the other contestants may well be ranked 
+    at the conclusion of play. Not everyone can be a corporation president, although some who have competed 
+    for that prize may be vice presidents or district managers.There are many games we enter not expecting to win, 
+    but in which we nonetheless compete for the highest possible ranking. 6 In one respect, but only one, 
+    an infinite game is identical to a finite game: Of infinite players we can also say that if they play 
+    they play freely; if they must play, they cannot play. Otherwise, infinite and finite play stand 
+    in the sharpest possible contrast. Infinite players cannot say when their game began, nor do they care. 
+    They do not care for the reason that their game is not bounded by time. Indeed, the only purpose of the game 6`
+
+    const arrayText = longText.split(' ')
+    const textContent = { items: [] }
+    for (const text of arrayText) {
+      const item = { str: text }
+      textContent.items.push(item)
+    }
+    const filteredContent = { items: [...textContent.items] }
+    filteredContent.items.pop()
+
+    expect(removePageNumber(textContent, '6').items.length).to.equal(removePageNumber(textContent, 6).items.length - 1)
+    expect(removePageNumber(textContent, '6').items).to.eql(filteredContent.items)
   })
 })
