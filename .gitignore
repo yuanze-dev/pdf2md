@@ -4,4 +4,3 @@ npm-debug.log
 .eslintcache
 dist/
 output/
-examples/ExamplePdf.md

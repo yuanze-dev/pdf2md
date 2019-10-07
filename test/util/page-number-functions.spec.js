@@ -2,15 +2,15 @@ const { expect } = require('chai')
 const { findPageNumbers, findFirstPage, removePageNumber } = require('../../lib/util/page-number-functions')
 
 describe('functions: findPageNumbers', () => {
-  it('Search, coerce and store page number', () => {
+  it('searches, coerces and stores page number', () => {
     const array = [{ str: '1' }, { str: 'test' }, { str: 'how' }, { str: 'to' }, { str: 'find' }, { str: 'page' }, { str: '3' }, { str: 'number' }]
     expect(findPageNumbers({}, 3, array)).to.eql({ 3: [1, 3] })
   })
 })
 
 describe('functions: findFirstPage', () => {
-  it('Return first page index and number with completed Hashtable', () => {
-    const hashTable = {
+  it('returns first page index and page number with completed object', () => {
+    const object = {
       20: [3],
       21: [4],
       22: [5],
@@ -22,11 +22,11 @@ describe('functions: findFirstPage', () => {
       28: [11],
       30: [13],
     }
-    expect(findFirstPage(hashTable)).to.eql({ pageIndex: 20, pageNum: 3 })
+    expect(findFirstPage(object)).to.eql({ pageIndex: 20, pageNum: 3 })
   })
 
-  it('Return first page index and number with incompleted Hashtable', () => {
-    const hashTable = {
+  it('returns first page index and page number with incompleted object', () => {
+    const object = {
       2: [19, 86, 1986, 110],
       5: [137, 151],
       9: [1],
@@ -38,17 +38,17 @@ describe('functions: findFirstPage', () => {
       16: [11, 12, 10],
       17: [11],
     }
-    expect(findFirstPage(hashTable)).to.eql({ pageIndex: 10, pageNum: 4 })
+    expect(findFirstPage(object)).to.eql({ pageIndex: 10, pageNum: 4 })
   })
 })
 
 describe('functions: removePageNumber', () => {
-  it('Remove page number when no conflicting number exists on the page', () => {
+  it('returns page number when no conflicting number exists on the page', () => {
     const textContent = { items: [{ str: '3' }, { str: 'play-' }, { str: '.' }, { str: 'a marked' }, { str: 'find' }, { str: 'page' }, { str: 'boundaries' }, { str: '4' }] }
     expect(removePageNumber(textContent, '4').items).to.eql([{ str: '3' }, { str: 'play-' }, { str: '.' }, { str: 'a marked' }, { str: 'find' }, { str: 'page' }, { str: 'boundaries' }])
   })
 
-  it('Remove page number when conflicting number exists on the page', () => {
+  it('returns page number when conflicting number exists on the page', () => {
     const longText = `beginning of the conflict and what would happen after its conclusion. 
     So also with place and membership. A game is played in that place, with those persons. 
     The world is elaborately marked by boundaries of contest, its people finely classified as to their eligibilities. 
