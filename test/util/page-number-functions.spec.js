@@ -9,6 +9,14 @@ describe('functions: findPageNumbers', () => {
 })
 
 describe('functions: findFirstPage', () => {
+  it('returns undefined when object has zero page', () => {
+    expect(findFirstPage({})).to.equal(undefined)
+  })
+
+  it('returns undefined when object has only one page', () => {
+    expect(findFirstPage({ 20: [3] })).to.equal(undefined)
+  })
+
   it('returns first page index and page number with completed object', () => {
     const object = {
       20: [3],
