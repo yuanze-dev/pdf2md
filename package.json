@@ -15,7 +15,7 @@
     "test": "mocha test --recursive",
     "test:watch": "mocha test --recursive --watch",
     "test:coverage": "nyc npm run test",
-    "check": "npm run lint && npm run test"
+    "check": "npm run lint && npm run test:coverage"
   },
   "keywords": [
     "PDF",
