@@ -3,6 +3,7 @@
   "version": "0.1.27",
   "description": "A PDF to Markdown Converter",
   "main": "lib/pdf2md.js",
+  "types": "types/pdf2md.d.ts",
   "bin": {
     "pdf2md": "lib/pdf2md-cli.js"
   },
