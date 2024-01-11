@@ -25,5 +25,6 @@
     "flowtype": {
       "onlyFilesWithFlowAnnotation": true
     }
-  }
+  },
+  "ignorePatterns": ["node_modules/", "**/*.ts"]
 }
