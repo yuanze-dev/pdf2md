@@ -9,7 +9,8 @@
   },
   "files": [
     "/lib",
-    "/test"
+    "/test",
+    "/types"
   ],
   "scripts": {
     "lint": "eslint lib --cache",
