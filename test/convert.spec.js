@@ -9,7 +9,6 @@ describe('integration test: convert pdf to markdown', () => {
 
     const pdfBuffer = new Uint8Array(fs.readFileSync(filePath))
     const text = await pdf2md(pdfBuffer)
-    fs.writeFileSync('./test/output.md', text)
 
     expect(text.includes(" ")).to.equal(true)
   })
